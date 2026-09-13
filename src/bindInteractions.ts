@@ -525,193 +525,267 @@ function bindStudioSchedule(root: HTMLElement) {
   }
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
 function bindVideoShowcase(root: HTMLElement) {
-  const video = root.querySelector<HTMLVideoElement>('#showcase-video')
-  const titleEl = root.querySelector('#video-title')
-  const subtitleEl = root.querySelector('#video-subtitle')
-  const indexEl = root.querySelector('#video-slide-index')
-  const thumbsEl = root.querySelector('#video-thumbs')
-  const playOverlay = root.querySelector<HTMLButtonElement>('#video-play-overlay')
-  const btnPrev = root.querySelector('#video-btn-prev')
-  const btnNext = root.querySelector('#video-btn-next')
-  const togglePlay = root.querySelector('#video-toggle-play')
-  const toggleIcon = root.querySelector('#video-toggle-icon')
-  const toggleLabel = root.querySelector('#video-toggle-label')
-  const toggleAuto = root.querySelector('#video-toggle-auto')
-  const autoLabel = root.querySelector('#video-auto-label')
-  const progressEl = root.querySelector<HTMLElement>('#video-auto-progress')
-  const rootEl = root.querySelector('#video-slider-root')
+  const reel = root.querySelector<HTMLElement>('#video-reel')
+  const btnPrev = root.querySelector('#video-reel-prev')
+  const btnNext = root.querySelector('#video-reel-next')
+  if (!reel || showcaseVideos.length === 0) return () => {}
 
-  if (!video || !thumbsEl || showcaseVideos.length === 0) return () => {}
+  type CardRefs = {
+    card: HTMLButtonElement
+    video: HTMLVideoElement
+    icon: HTMLElement
+  }
 
-  let index = 0
-  let autoEnabled = true
+  const cards: CardRefs[] = []
+  let playingId: string | null = null
+  let animating = false
+  let hoverPaused = false
   let autoTimer: ReturnType<typeof setInterval> | null = null
-  let progressTimer: ReturnType<typeof setInterval> | null = null
-  let progress = 0
-  const AUTO_MS = 7000
-  const PROGRESS_TICK = 100
+  const AUTO_MS = 2000
+  const SLIDE_MS = 700
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  function stopAutoTimers() {
-    if (autoTimer) clearInterval(autoTimer)
-    if (progressTimer) clearInterval(progressTimer)
-    autoTimer = null
-    progressTimer = null
-    progress = 0
-    if (progressEl) progressEl.style.width = '0%'
+  function setPlayingUi(refs: CardRefs, playing: boolean) {
+    refs.card.classList.toggle('is-playing', playing)
+    refs.icon.textContent = playing ? 'pause' : 'play_arrow'
+    refs.card.setAttribute('aria-pressed', playing ? 'true' : 'false')
   }
 
-  function startAutoTimers() {
-    stopAutoTimers()
-    if (!autoEnabled || !video.paused) return
-    progressTimer = setInterval(() => {
-      progress += PROGRESS_TICK
-      if (progressEl) {
-        progressEl.style.width = `${Math.min(100, (progress / AUTO_MS) * 100)}%`
+  function stopCard(refs: CardRefs) {
+    refs.video.pause()
+    refs.video.currentTime = 0
+    setPlayingUi(refs, false)
+    if (playingId === refs.card.dataset.id) playingId = null
+    startAuto()
+  }
+
+  function stopOthers(exceptId: string) {
+    cards.forEach((refs) => {
+      if (refs.card.dataset.id !== exceptId) {
+        refs.video.pause()
+        refs.video.currentTime = 0
+        setPlayingUi(refs, false)
       }
-    }, PROGRESS_TICK)
-    autoTimer = setInterval(() => {
-      goTo((index + 1) % showcaseVideos.length, false)
-    }, AUTO_MS)
-  }
-
-  function updatePlayUi(playing: boolean) {
-    if (playOverlay) playOverlay.classList.toggle('hidden', playing)
-    if (toggleIcon) toggleIcon.textContent = playing ? 'pause' : 'play_arrow'
-    if (toggleLabel) toggleLabel.textContent = playing ? 'توقف' : 'پخش'
-  }
-
-  function renderThumbs() {
-    thumbsEl!.innerHTML = ''
-    showcaseVideos.forEach((item, i) => {
-      const btn = document.createElement('button')
-      btn.type = 'button'
-      btn.className = `shrink-0 relative w-[140px] md:w-[180px] aspect-video rounded-xl overflow-hidden border-2 transition-all ${
-        i === index
-          ? 'border-brand-red ring-2 ring-brand-red/30'
-          : 'border-transparent opacity-80 hover:opacity-100'
-      }`
-      btn.innerHTML = `
-        <img src="${item.poster}" alt="${item.title}" class="w-full h-full object-cover" />
-        <span class="absolute inset-0 bg-brand-charcoal/35"></span>
-        <span class="absolute bottom-1 inset-x-1 text-[10px] font-bold text-on-primary truncate text-right px-1">${item.title}</span>
-      `
-      btn.addEventListener('click', () => goTo(i, true))
-      thumbsEl!.appendChild(btn)
     })
   }
 
-  function goTo(nextIndex: number, userAction: boolean) {
-    index = nextIndex
-    const item = showcaseVideos[index]
-    const wasPlaying = !video!.paused
-
-    video!.pause()
-    video!.removeAttribute('src')
-    video!.poster = item.poster
-    video!.src = item.src
-    video!.load()
-
-    if (titleEl) titleEl.textContent = item.title
-    if (subtitleEl) subtitleEl.textContent = item.subtitle
-    if (indexEl) {
-      indexEl.textContent = `${(index + 1).toLocaleString('fa-IR')} / ${showcaseVideos.length.toLocaleString('fa-IR')}`
+  async function playCard(refs: CardRefs, src: string) {
+    const id = refs.card.dataset.id
+    if (!id) return
+    stopOthers(id)
+    stopAuto()
+    if (refs.video.getAttribute('src') !== src) {
+      refs.video.src = src
+      refs.video.load()
     }
-    renderThumbs()
-    updatePlayUi(false)
-
-    if (userAction) {
-      startAutoTimers()
-    } else if (autoEnabled) {
-      startAutoTimers()
-    }
-
-    if (wasPlaying && userAction) {
-      void video!.play().then(() => updatePlayUi(true)).catch(() => updatePlayUi(false))
-      stopAutoTimers()
-    }
-  }
-
-  async function playVideo() {
+    refs.video.muted = false
     try {
-      await video!.play()
-      updatePlayUi(true)
-      stopAutoTimers()
+      await refs.video.play()
+      playingId = id
+      setPlayingUi(refs, true)
     } catch {
-      updatePlayUi(false)
+      refs.video.muted = true
+      try {
+        await refs.video.play()
+        playingId = id
+        setPlayingUi(refs, true)
+      } catch {
+        setPlayingUi(refs, false)
+        startAuto()
+      }
     }
   }
 
-  function pauseVideo() {
-    video!.pause()
-    updatePlayUi(false)
-    if (autoEnabled) startAutoTimers()
+  function cardStep() {
+    const first = reel.firstElementChild as HTMLElement | null
+    if (!first) return 0
+    const gap = parseFloat(getComputedStyle(reel).columnGap || getComputedStyle(reel).gap) || 0
+    return first.getBoundingClientRect().width + gap
   }
 
-  const onOverlay = () => void playVideo()
-  const onTogglePlay = () => {
-    if (video!.paused) void playVideo()
-    else pauseVideo()
+  function canSlide() {
+    return !animating && !playingId && reel.children.length > 1
   }
+
+  function finishSlide(onDone: () => void) {
+    let settled = false
+    const done = (event?: TransitionEvent) => {
+      if (settled) return
+      if (event && event.target !== reel) return
+      settled = true
+      reel.removeEventListener('transitionend', done)
+      onDone()
+      reel.style.transition = 'none'
+      reel.style.transform = 'translateX(0)'
+      void reel.offsetWidth
+      reel.style.transition = ''
+      animating = false
+    }
+    if (reduceMotion) {
+      done()
+      return
+    }
+    reel.addEventListener('transitionend', done)
+    window.setTimeout(() => done(), SLIDE_MS + 80)
+  }
+
+  function goNext() {
+    if (!canSlide()) return
+    const step = cardStep()
+    if (!step) return
+    animating = true
+    const first = reel.firstElementChild
+    if (!first) {
+      animating = false
+      return
+    }
+    reel.style.transition = reduceMotion
+      ? 'none'
+      : `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+    reel.style.transform = `translateX(${step}px)`
+    finishSlide(() => {
+      reel.appendChild(first)
+    })
+  }
+
+  function goPrev() {
+    if (!canSlide()) return
+    const step = cardStep()
+    const last = reel.lastElementChild
+    if (!step || !last) return
+    animating = true
+    reel.style.transition = 'none'
+    reel.insertBefore(last, reel.firstElementChild)
+    reel.style.transform = `translateX(${step}px)`
+    void reel.offsetWidth
+    reel.style.transition = reduceMotion
+      ? 'none'
+      : `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+    reel.style.transform = 'translateX(0)'
+    finishSlide(() => {})
+  }
+
+  function stopAuto() {
+    if (autoTimer) clearInterval(autoTimer)
+    autoTimer = null
+  }
+
+  function startAuto() {
+    stopAuto()
+    if (hoverPaused || playingId || reduceMotion) return
+    autoTimer = setInterval(goNext, AUTO_MS)
+  }
+
+  const reelCopies = 3
+  const reelItems = Array.from({ length: reelCopies }, (_, copy) =>
+    showcaseVideos.map((item) => ({
+      ...item,
+      instanceId: `${item.id}-${copy}`,
+    })),
+  ).flat()
+
+  reelItems.forEach((item) => {
+    const card = document.createElement('button')
+    card.type = 'button'
+    card.className = 'video-portrait-card'
+    card.dataset.id = item.instanceId
+    card.setAttribute('aria-label', `پخش ${item.title}`)
+    card.setAttribute('aria-pressed', 'false')
+    card.innerHTML = `
+      <img class="video-portrait-media" src="${escapeHtml(item.poster)}" alt="${escapeHtml(item.title)}" />
+      <video class="video-portrait-media video-portrait-clip" playsinline preload="none" poster="${escapeHtml(item.poster)}"></video>
+      <span class="video-portrait-shade"></span>
+      <span class="video-portrait-play">
+        <span class="video-portrait-play-icon">
+          <span class="material-symbols-outlined text-[28px] ml-0.5">play_arrow</span>
+        </span>
+      </span>
+      <div class="video-portrait-copy">
+        <p class="video-portrait-quote">${escapeHtml(item.title)}</p>
+        <p class="video-portrait-sub">${escapeHtml(item.subtitle)}</p>
+        <div class="video-portrait-brand">
+          <span class="material-symbols-outlined">videocam</span>
+          <span>روتینو</span>
+        </div>
+      </div>
+    `
+
+    const video = card.querySelector('video')
+    const icon = card.querySelector('.video-portrait-play-icon .material-symbols-outlined')
+    if (!video || !icon) return
+
+    const refs: CardRefs = { card, video, icon }
+
+    const onClick = () => {
+      if (playingId === item.instanceId && !video.paused) stopCard(refs)
+      else void playCard(refs, item.src)
+    }
+    const onEnded = () => stopCard(refs)
+    const onPause = () => {
+      if (video.ended) return
+      if (playingId === item.instanceId && video.paused) {
+        setPlayingUi(refs, false)
+        playingId = null
+        startAuto()
+      }
+    }
+    const onPlay = () => {
+      setPlayingUi(refs, true)
+      stopAuto()
+    }
+
+    card.addEventListener('click', onClick)
+    video.addEventListener('ended', onEnded)
+    video.addEventListener('pause', onPause)
+    video.addEventListener('play', onPlay)
+
+    cards.push(refs)
+    reel.appendChild(card)
+  })
+
   const onPrev = () => {
-    goTo((index - 1 + showcaseVideos.length) % showcaseVideos.length, true)
+    goPrev()
+    startAuto()
   }
   const onNext = () => {
-    goTo((index + 1) % showcaseVideos.length, true)
+    goNext()
+    startAuto()
   }
-  const onToggleAuto = () => {
-    autoEnabled = !autoEnabled
-    if (autoLabel) autoLabel.textContent = autoEnabled ? 'خودکار روشن' : 'خودکار خاموش'
-    if (autoEnabled && video!.paused) startAutoTimers()
-    else stopAutoTimers()
-  }
-  const onEnded = () => {
-    updatePlayUi(false)
-    goTo((index + 1) % showcaseVideos.length, false)
-    if (autoEnabled) startAutoTimers()
-  }
-  const onPlay = () => {
-    updatePlayUi(true)
-    stopAutoTimers()
-  }
-  const onPause = () => {
-    updatePlayUi(false)
-    if (autoEnabled) startAutoTimers()
-  }
-
-  playOverlay?.addEventListener('click', onOverlay)
-  togglePlay?.addEventListener('click', onTogglePlay)
-  btnPrev?.addEventListener('click', onPrev)
-  btnNext?.addEventListener('click', onNext)
-  toggleAuto?.addEventListener('click', onToggleAuto)
-  video.addEventListener('ended', onEnded)
-  video.addEventListener('play', onPlay)
-  video.addEventListener('pause', onPause)
-
   const onEnter = () => {
-    if (video!.paused) stopAutoTimers()
+    hoverPaused = true
+    stopAuto()
   }
   const onLeave = () => {
-    if (autoEnabled && video!.paused) startAutoTimers()
+    hoverPaused = false
+    startAuto()
   }
-  rootEl?.addEventListener('mouseenter', onEnter)
-  rootEl?.addEventListener('mouseleave', onLeave)
 
-  goTo(0, false)
-  startAutoTimers()
+  btnPrev?.addEventListener('click', onPrev)
+  btnNext?.addEventListener('click', onNext)
+  reel.addEventListener('mouseenter', onEnter)
+  reel.addEventListener('mouseleave', onLeave)
+
+  startAuto()
 
   return () => {
-    stopAutoTimers()
-    playOverlay?.removeEventListener('click', onOverlay)
-    togglePlay?.removeEventListener('click', onTogglePlay)
+    stopAuto()
     btnPrev?.removeEventListener('click', onPrev)
     btnNext?.removeEventListener('click', onNext)
-    toggleAuto?.removeEventListener('click', onToggleAuto)
-    video.removeEventListener('ended', onEnded)
-    video.removeEventListener('play', onPlay)
-    video.removeEventListener('pause', onPause)
-    rootEl?.removeEventListener('mouseenter', onEnter)
-    rootEl?.removeEventListener('mouseleave', onLeave)
-    video.pause()
+    reel.removeEventListener('mouseenter', onEnter)
+    reel.removeEventListener('mouseleave', onLeave)
+    cards.forEach((refs) => {
+      refs.video.pause()
+      refs.card.remove()
+    })
+    reel.innerHTML = ''
   }
 }
