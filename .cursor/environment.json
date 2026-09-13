@@ -1,0 +1,17 @@
+{
+  "name": "Routino studio site",
+  "install": "npm ci",
+  "terminals": [
+    {
+      "name": "dev",
+      "command": "npm run dev -- --host",
+      "description": "Vite dev server for the Routino studio site (http://localhost:5173)."
+    }
+  ],
+  "ports": [
+    {
+      "name": "vite",
+      "port": 5173
+    }
+  ]
+}
