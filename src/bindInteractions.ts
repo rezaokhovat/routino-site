@@ -543,6 +543,7 @@ function bindVideoShowcase(root: HTMLElement) {
   const rootEl = root.querySelector('#video-slider-root')
 
   if (!video || !thumbsEl || showcaseVideos.length === 0) return () => {}
+  const player = video
 
   let index = 0
   let autoEnabled = true
@@ -563,7 +564,7 @@ function bindVideoShowcase(root: HTMLElement) {
 
   function startAutoTimers() {
     stopAutoTimers()
-    if (!autoEnabled || !video.paused) return
+    if (!autoEnabled || !player.paused) return
     progressTimer = setInterval(() => {
       progress += PROGRESS_TICK
       if (progressEl) {
