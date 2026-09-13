@@ -1,16 +1,19 @@
+import { studioAddress, studioNeshanUrl } from '../studioLocation'
+
 export function ContactPage() {
   return (
     <main className="w-full pt-28 bg-surface">
       <section className="relative overflow-hidden bg-gradient-to-b from-surface-container-low via-surface to-surface pb-14 pt-10">
         <div className="max-w-[1240px] mx-auto px-gutter-lg max-w-3xl flex flex-col gap-5">
           <span className="self-start px-3.5 py-1.5 rounded-full bg-surface-container text-brand-red font-label-badge text-label-badge">
-            هماهنگی آفیش
+            ارتباط با برند روتینو
           </span>
           <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-extrabold text-on-surface">
-            تماس با استودیو روتینو
+            تماس با روتینو
           </h1>
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            برای رزرو تاریخ، بازدید حضوری یا مشاوره تجهیزات با کارشناسان روتینو تماس بگیرید.
+            برای هماهنگی با تیم روتینو — از جمله رزرو بخش استودیو، بازدید حضوری یا مشاوره تجهیزات —
+            با ما در تماس باشید.
           </p>
         </div>
       </section>
@@ -47,7 +50,7 @@ export function ContactPage() {
             <div>
               <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">آدرس</h2>
               <p className="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
-                کرج، بلوار انقلاب، فاز سوم گوهردشت، گلستان یکم، پلاک ۶ واحد ۲
+                {studioAddress}
               </p>
             </div>
           </div>
@@ -63,7 +66,41 @@ export function ContactPage() {
             </div>
           </div>
         </div>
+
         <div className="max-w-[1240px] mx-auto px-gutter-lg mt-8">
+          <a
+            href={studioNeshanUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] p-6 md:p-8 hover:border-brand-red/40 hover:shadow-lg transition-all"
+            aria-label="مسیریابی تا استودیو روتینو با اپلیکیشن نشان"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+              <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-red to-brand-orange text-on-primary flex items-center justify-center shrink-0 shadow-lg shadow-brand-red/25">
+                <span className="material-symbols-outlined text-[30px]">near_me</span>
+              </span>
+              <div className="min-w-0 flex-1">
+                <h2 className="font-headline-md text-headline-md font-bold text-on-surface">
+                  مسیریابی با نشان
+                </h2>
+                <p className="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
+                  با یک کلیک، لوکیشن استودیو روتینو در اپلیکیشن نشان باز می‌شود تا مسیر را تا رسیدن به
+                  ما دنبال کنید.
+                </p>
+                <p className="text-label-badge font-label-badge text-on-surface-variant/80 mt-2 truncate">
+                  {studioAddress}
+                </p>
+              </div>
+              <span className="inline-flex items-center justify-center gap-2 self-start sm:self-center px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm text-[15px] font-bold shadow-md shadow-brand-red/30 group-hover:opacity-95 transition-opacity">
+                <span className="material-symbols-outlined text-[20px]">explore</span>
+                باز کردن نشان
+                <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+              </span>
+            </div>
+          </a>
+        </div>
+
+        <div className="max-w-[1240px] mx-auto px-gutter-lg mt-6">
           <a
             href="tel:09903760867"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/40 hover:opacity-95"

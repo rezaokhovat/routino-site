@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
+import { RoutinoLogo } from './RoutinoLogo'
 import { siteNav } from './siteNav'
 
 function navClassName({ isActive }: { isActive: boolean }) {
@@ -33,7 +34,7 @@ export function SiteHeader() {
             </span>
             <span className="hidden lg:inline-flex items-center gap-1 text-brand-red">
               <span className="material-symbols-outlined text-[14px]">verified</span>
-              <span>استودیو تخصصی فیلم‌برداری و پادکست روتینو</span>
+              <span>برند روتینو • سلامت، ورزش و سبک زندگی</span>
             </span>
           </div>
           <div className="flex items-center gap-gutter-md">
@@ -51,19 +52,7 @@ export function SiteHeader() {
         </div>
         <div className="h-[72px] flex items-center justify-between gap-gutter-md">
           <div className="flex items-center gap-gutter-xl">
-            <Link to="/" className="flex items-center gap-3 shrink-0 group" onClick={() => setOpen(false)}>
-              <div className="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-brand-red via-brand-orange to-primary text-on-primary shadow-[0_4px_16px_rgba(217,31,64,0.35)]">
-                <span className="material-symbols-outlined text-[24px]">videocam</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-headline-sm text-headline-sm font-bold text-on-surface tracking-tight group-hover:text-brand-red transition-colors">
-                  استودیو روتینو
-                </span>
-                <span className="font-label-badge text-label-badge text-brand-red -mt-1 font-semibold tracking-wider uppercase">
-                  ROUTINO STUDIO
-                </span>
-              </div>
-            </Link>
+            <RoutinoLogo height={48} onClick={() => setOpen(false)} />
             <nav className="hidden xl:flex items-center gap-gutter-xs p-1 bg-surface-container/60 rounded-xl" id="main-nav">
               {siteNav.map((item) => (
                 <NavLink

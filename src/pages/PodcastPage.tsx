@@ -25,14 +25,14 @@ export function PodcastPage() {
         <div className="max-w-[1240px] mx-auto px-gutter-lg">
           <div className="max-w-3xl flex flex-col gap-5">
           <span className="self-start px-3.5 py-1.5 rounded-full bg-surface-container text-brand-red font-label-badge text-label-badge">
-            پادکست صوتی و تصویری
+            خدمات پادکست برند روتینو
           </span>
           <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-extrabold text-on-surface">
-            استودیو آماده برای ضبط پادکست
+            ضبط پادکست در استودیو روتینو
           </h1>
           <p className="font-body-lg text-body-lg text-on-surface-variant">
-            اتاق آکوستیک، میکروفن‌های RØDE و نور NanLite برای تولید قسمت‌های صوتی، گفتگوی دونفره و
-            پادکست تصویری آماده است. رزرو و تعرفه در صفحه استودیو انجام می‌شود.
+            در بخش استودیو برند روتینو، اتاق آکوستیک، میکروفن‌های RØDE و نور NanLite برای قسمت‌های صوتی،
+            گفتگوی دونفره و پادکست تصویری آماده است. رزرو و تعرفه اجاره در صفحه استودیو انجام می‌شود.
           </p>
           <div className="flex flex-wrap gap-3">
             <Link

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { RoutinoLogo } from './RoutinoLogo'
 import { siteNav } from './siteNav'
 
 const packages = [
@@ -15,18 +16,10 @@ export function SiteFooter() {
       <div className="max-w-[1240px] mx-auto px-gutter-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-gutter-xl pb-16 border-b border-glass-border-dark">
           <div className="lg:col-span-4 flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-red to-brand-orange flex items-center justify-center text-on-primary shadow-md">
-                <span className="material-symbols-outlined text-[22px]">movie</span>
-              </div>
-              <span className="font-headline-md text-headline-md font-bold text-on-primary">
-                استودیو فیلم‌برداری و پادکست روتینو
-              </span>
-            </div>
+            <RoutinoLogo height={56} className="self-start" />
             <p className="font-body-md text-body-md text-secondary-container leading-relaxed">
-              استودیو روتینو، لوکیشن مجهز و استاندارد برای ضبط دوره‌های آموزشی آنلاین، پادکست‌های
-              حرفه‌ای و محتوای شبکه‌های اجتماعی با به‌روزترین تجهیزات سونی، میکروفن‌های RØDE و سیستم
-              نورپردازی نانلایت.
+              روتینو برند تولید محتواست. بخش استودیوی این مجموعه لوکیشنی مجهز برای فیلم‌برداری، پادکست
+              و محتوای شبکه‌های اجتماعی با تجهیزات سونی، RØDE و نورپردازی NanLite فراهم می‌کند.
             </p>
             <div className="flex items-center gap-3 pt-2 flex-wrap">
               <span className="px-3 py-1.5 rounded-lg bg-brand-surface-dark border border-glass-border-dark text-on-tertiary-container font-label-badge text-label-badge">
@@ -42,7 +35,7 @@ export function SiteFooter() {
           </div>
           <div className="lg:col-span-3 flex flex-col gap-3">
             <span className="font-headline-sm text-headline-sm font-bold text-on-primary border-r-4 border-brand-red pr-3">
-              پکیج‌های استودیو روتینو
+              پکیج‌های بخش استودیو
             </span>
             <ul className="flex flex-col gap-2.5 font-body-md text-body-md text-secondary-fixed">
               {packages.map((item) => (
@@ -67,7 +60,7 @@ export function SiteFooter() {
           </div>
           <div className="lg:col-span-3 flex flex-col gap-3">
             <span className="font-headline-sm text-headline-sm font-bold text-on-primary border-r-4 border-brand-red pr-3">
-              ارتباط با استودیو روتینو
+              ارتباط با روتینو
             </span>
             <div className="flex flex-col gap-3 text-secondary-fixed font-body-md text-body-md">
               <div className="flex items-start gap-2.5">
@@ -96,7 +89,7 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-md text-body-md text-secondary-fixed">
-          <p>© کلیه حقوق مادی و معنوی متعلق به «استودیو روتینو (Routino Studio)» می‌باشد.</p>
+          <p>© کلیه حقوق مادی و معنوی متعلق به «روتینو (Routino)» می‌باشد.</p>
         </div>
       </div>
     </footer>

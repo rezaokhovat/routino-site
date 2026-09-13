@@ -13,15 +13,15 @@ export function AboutPage() {
         <div className="max-w-[1240px] mx-auto px-gutter-lg">
           <div className="max-w-3xl flex flex-col gap-5">
             <span className="self-start px-3.5 py-1.5 rounded-full bg-surface-container text-brand-red font-label-badge text-label-badge">
-              درباره روتینو
+              درباره برند روتینو
             </span>
             <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-extrabold text-on-surface">
-              استودیو تولید محتوا در گوهردشت کرج
+              روتینو؛ از ایده تا خروجی حرفه‌ای
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-              روتینو برای ضبط دوره‌های آموزشی آنلاین، پادکست حرفه‌ای و محتوای شبکه‌های اجتماعی طراحی شده
-              است. دوربین‌های سینمایی سونی، میکروفن‌های RØDE و نور NanLite در پکیج‌های دوربین بدون هزینه
-              جداگانه در اختیار شماست.
+              روتینو برند تولید محتواست. بخش استودیوی این مجموعه در گوهردشت کرج برای ضبط دوره‌های آموزشی،
+              پادکست و محتوای شبکه‌های اجتماعی تجهیز شده و جزئیات فضا، تعرفه و رزرو در صفحه استودیو آمده
+              است.
             </p>
           </div>
         </div>

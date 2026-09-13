@@ -8,8 +8,8 @@ export const siteNav = [
 
 export const pageTitles: Record<string, string> = {
   '/': 'روتینو',
-  '/studio': 'استودیو | روتینو',
+  '/studio': 'بخش استودیو | روتینو',
   '/podcast': 'پادکست | روتینو',
-  '/about': 'درباره روتینو | روتینو',
+  '/about': 'درباره روتینو',
   '/contact': 'تماس با ما | روتینو',
 }

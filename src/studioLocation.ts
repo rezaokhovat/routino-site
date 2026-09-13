@@ -9,4 +9,5 @@ export const studioMapsDirUrl = `https://www.google.com/maps/dir/?api=1&destinat
 
 export const studioMapsEmbedUrl = `https://maps.google.com/maps?q=${mapsQuery}&z=16&hl=fa&output=embed`
 
-export const studioNeshanUrl = `https://neshan.org/maps#/search/${mapsQuery}`
+/** لینک کوتاه نشان برای باز شدن در اپلیکیشن / وب */
+export const studioNeshanUrl = 'https://nshn.ir/rbvx9byxWEJ3'
