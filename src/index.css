@@ -1,0 +1,72 @@
+:root {
+  --font-yekan: 'Vazirmatn', 'IRANYekan', system-ui, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-yekan);
+  letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+table,
+th,
+td,
+a,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-yekan) !important;
+}
+
+.material-symbols-outlined,
+.material-symbols-outlined * {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal !important;
+  font-style: normal !important;
+  line-height: 1 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  word-wrap: normal !important;
+  direction: ltr !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+h1,
+h2,
+h3,
+.font-display-hero {
+  font-weight: 800 !important;
+}
+
+.font-headline-lg,
+.font-headline-md {
+  font-weight: 700 !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+main > :first-child {
+  margin-top: 0 !important;
+}
+
+main > :last-child {
+  margin-bottom: 0 !important;
+}
