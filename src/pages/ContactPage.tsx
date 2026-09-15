@@ -1,4 +1,9 @@
-import { studioAddress, studioNeshanUrl } from '../studioLocation'
+import {
+  studioAddress,
+  studioMapsDirUrl,
+  studioMapsEmbedUrl,
+  studioNeshanUrl,
+} from '../studioLocation'
 
 export function ContactPage() {
   return (
@@ -18,7 +23,7 @@ export function ContactPage() {
         </div>
       </section>
       <section className="pb-16">
-        <div className="max-w-[1240px] mx-auto px-gutter-lg grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="max-w-[1240px] mx-auto px-gutter-lg grid grid-cols-1 md:grid-cols-3 gap-5">
           <a
             href="tel:09903760867"
             className="p-6 rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] flex items-start gap-4 hover:border-brand-red/40 transition-colors"
@@ -45,17 +50,6 @@ export function ContactPage() {
           </a>
           <div className="p-6 rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] flex items-start gap-4">
             <span className="w-12 h-12 rounded-2xl bg-brand-red text-on-primary flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[24px]">location_on</span>
-            </span>
-            <div>
-              <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">آدرس</h2>
-              <p className="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
-                {studioAddress}
-              </p>
-            </div>
-          </div>
-          <div className="p-6 rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] flex items-start gap-4">
-            <span className="w-12 h-12 rounded-2xl bg-brand-red text-on-primary flex items-center justify-center shrink-0">
               <span className="material-symbols-outlined text-[24px]">schedule</span>
             </span>
             <div>
@@ -68,36 +62,63 @@ export function ContactPage() {
         </div>
 
         <div className="max-w-[1240px] mx-auto px-gutter-lg mt-8">
-          <a
-            href={studioNeshanUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group block rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] p-6 md:p-8 hover:border-brand-red/40 hover:shadow-lg transition-all"
-            aria-label="مسیریابی تا استودیو روتینو با اپلیکیشن نشان"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-              <span className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-red to-brand-orange text-on-primary flex items-center justify-center shrink-0 shadow-lg shadow-brand-red/25">
-                <span className="material-symbols-outlined text-[30px]">near_me</span>
-              </span>
-              <div className="min-w-0 flex-1">
-                <h2 className="font-headline-md text-headline-md font-bold text-on-surface">
-                  مسیریابی با نشان
-                </h2>
-                <p className="font-body-md text-body-md text-on-surface-variant mt-1 leading-relaxed">
-                  با یک کلیک، لوکیشن استودیو روتینو در اپلیکیشن نشان باز می‌شود تا مسیر را تا رسیدن به
-                  ما دنبال کنید.
-                </p>
-                <p className="text-label-badge font-label-badge text-on-surface-variant/80 mt-2 truncate">
-                  {studioAddress}
-                </p>
+          <div className="rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] overflow-hidden">
+            <div className="p-6 md:p-8 flex flex-col gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-11 h-11 rounded-xl bg-brand-red text-on-primary flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[24px]">location_on</span>
+                </span>
+                <div>
+                  <h2 className="font-headline-md text-headline-md font-bold text-on-surface">آدرس استودیو</h2>
+                  <p className="text-label-badge font-label-badge text-on-surface-variant">
+                    برای مسیریابی روی آدرس بزنید
+                  </p>
+                </div>
               </div>
-              <span className="inline-flex items-center justify-center gap-2 self-start sm:self-center px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm text-[15px] font-bold shadow-md shadow-brand-red/30 group-hover:opacity-95 transition-opacity">
-                <span className="material-symbols-outlined text-[20px]">explore</span>
-                باز کردن نشان
-                <span className="material-symbols-outlined text-[18px]">chevron_left</span>
-              </span>
+              <a
+                href={studioMapsDirUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-start gap-2 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 px-4 py-3.5 hover:border-brand-red/50 hover:bg-brand-red/5 transition-colors"
+                aria-label={`مسیریابی تا ${studioAddress}`}
+              >
+                <span className="material-symbols-outlined text-brand-red text-[22px] shrink-0 mt-0.5">
+                  directions
+                </span>
+                <span className="font-body-lg text-body-lg text-on-surface leading-relaxed group-hover:text-brand-red transition-colors">
+                  {studioAddress}
+                </span>
+              </a>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={studioMapsDirUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/20 hover:opacity-95"
+                >
+                  <span className="material-symbols-outlined text-[20px]">navigation</span>
+                  مسیریابی با گوگل‌مپ
+                </a>
+                <a
+                  href={studioNeshanUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 hover:bg-surface-container"
+                >
+                  <span className="material-symbols-outlined text-[20px]">explore</span>
+                  مسیریابی با نشان
+                </a>
+              </div>
             </div>
-          </a>
+            <iframe
+              title="نقشه استودیو روتینو"
+              src={studioMapsEmbedUrl}
+              className="w-full h-[280px] md:h-[360px] border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
         </div>
 
         <div className="max-w-[1240px] mx-auto px-gutter-lg mt-6">

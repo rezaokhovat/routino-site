@@ -4,22 +4,24 @@ import { RoutinoLogo } from '../RoutinoLogo'
 
 const todayProducts = [
   {
-    eyebrow: 'MEDIA',
-    title: 'Routino Podcast & Plus',
-    text: 'محتوای سلامت، ورزش، ذهن و سبک زندگی — جایی که دانش به زبان ساده و قابل‌استفاده می‌رسد.',
+    eyebrow: 'رسانه روتینو',
+    title: 'پادکست و روتینو پلاس',
+    text: 'گفت‌وگوها و ویدیوهایی درباره سلامت، ورزش، ذهن و سبک زندگی؛ ساده، علمی و قابل‌استفاده در زندگی واقعی.',
     to: '/podcast',
-    action: 'مشاهده پادکست',
-    image: '/images/3.jpg',
-    imageAlt: 'ضبط محتوا در فضای استودیو روتینو',
+    action: 'مشاهده برنامه‌ها',
+    image: '/images/home-podcast.jpg',
+    imageAlt: 'فضای ضبط پادکست روتینو با میکروفن و صندلی سبز',
+    imageClass: 'object-[left_center]',
   },
   {
-    eyebrow: 'STUDIO',
-    title: 'Routino Studio',
-    text: 'فضای حرفه‌ای تولید پادکست، ویدیو و محتوای برند با بیش از ۱۵ دکور و تجهیزات کامل.',
+    eyebrow: 'استودیو روتینو',
+    title: 'فضای حرفه‌ای تولید محتوا',
+    text: 'بیش از ۱۵ دکور متنوع، تجهیزات کامل تصویربرداری و فضای آماده برای تولید پادکست، ریلز و ویدیوهای حرفه‌ای.',
     to: '/studio',
-    action: 'ورود به استودیو',
-    image: '/images/0.jpg',
-    imageAlt: 'ست پادکست و فیلم‌برداری استودیو روتینو',
+    action: 'مشاهده استودیو',
+    image: '/images/home-studio.jpg',
+    imageAlt: 'ست تصویربرداری استودیو روتینو با دوربین، نور و دکور',
+    imageClass: 'object-[left_center]',
   },
 ]
 
@@ -27,23 +29,24 @@ export function HomePage() {
   return (
     <main className="w-full bg-surface">
       {/* Hero — full-bleed studio atmosphere */}
-      <section className="relative min-h-[min(92vh,920px)] flex flex-col justify-end overflow-hidden">
+      <section className="relative w-full bg-brand-charcoal overflow-hidden pt-28">
+        <div className="relative w-full min-h-[460px] max-h-[70vh] aspect-video">
         <img
-          src="/images/2.png"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[center_20%] home-hero-ken"
+          src="/images/home-hero.jpg"
+          alt="سبک زندگی سالم روتینو؛ ورزش، خانه و شهر در یک قاب"
+          className="absolute inset-0 h-full w-full object-cover object-[left_top] origin-top-left home-hero-ken"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-brand-charcoal/90 via-brand-charcoal/25 to-black/10"
           aria-hidden="true"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/75 to-brand-charcoal/35"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-brand-charcoal/40"
+          className="absolute inset-0 bg-gradient-to-l from-brand-charcoal/80 via-brand-charcoal/35 to-transparent"
           aria-hidden="true"
         />
 
-        <div className="relative z-10 max-w-[1240px] w-full mx-auto px-gutter-lg pt-32 pb-14 md:pb-20">
+        <div className="absolute inset-0 z-10 flex flex-col justify-end">
+        <div className="max-w-[1240px] w-full mx-auto px-gutter-lg pt-6 pb-10 md:pb-14">
           <div className="max-w-2xl flex flex-col gap-5 home-reveal home-reveal-delay-1">
             <RoutinoLogo to={false} height={72} className="self-start" />
             <h1 className="font-display-hero text-display-hero-mobile md:text-display-hero font-extrabold text-on-primary drop-shadow-sm">
@@ -69,6 +72,8 @@ export function HomePage() {
             </div>
           </div>
         </div>
+        </div>
+        </div>
       </section>
 
       {/* Philosophy — image + text composition */}
@@ -80,31 +85,23 @@ export function HomePage() {
                 فلسفه روتینو
               </span>
               <h2 className="font-headline-lg text-[26px] md:text-[34px] font-extrabold text-on-surface mb-4 leading-snug">
-                کمک به ساختن زندگی بهتر، از طریق روتین‌های بهتر.
+                زندگی بهتر، از انتخاب‌های کوچک هر روز شروع می‌شود.
               </h2>
+              <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-4">
+                در روتینو معتقدیم برای بهتر زندگی کردن، همیشه به تغییرهای بزرگ و ناگهانی نیاز نداریم. گاهی یک
+                خواب منظم‌تر، چند دقیقه تحرک بیشتر یا یک انتخاب آگاهانه می‌تواند شروع یک مسیر تازه باشد.
+              </p>
               <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                محتوا، فضا، تکنولوژی و تجربه فیزیکی — همه قطعات یک اکوسیستم واحد هستند، نه کسب‌وکارهای جدا از
-                هم.
+                ما تلاش می‌کنیم دانش سلامت، ورزش و سبک زندگی را به راهکارهای ساده و قابل‌اجرا تبدیل کنیم؛ تا هر
+                روز بتوانید یک قدم کوچک اما مؤثر برای خودتان بردارید.
               </p>
             </div>
             <div className="lg:col-span-7 relative home-reveal home-reveal-delay-2">
               <div className="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden rounded-[1.75rem]">
                 <img
-                  src="/images/4.jpg"
-                  alt="فضای ضبط و گفت‌وگو در استودیو روتینو"
-                  className="h-full w-full object-cover object-center transition-transform duration-700 hover:scale-[1.03]"
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-tr from-brand-charcoal/25 via-transparent to-transparent pointer-events-none"
-                  aria-hidden="true"
-                />
-              </div>
-              <div className="absolute -bottom-4 -start-3 md:-start-6 w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden shadow-xl border-4 border-surface rotate-[-3deg] hidden sm:block">
-                <img
-                  src="/images/1.jpg"
-                  alt=""
-                  className="h-full w-full object-cover"
-                  aria-hidden="true"
+                  src="/images/home-philosophy.jpg"
+                  alt="شروع روز با یک انتخاب کوچک؛ بستن بند کفش برای حرکت"
+                  className="h-full w-full object-cover object-[center_20%] transition-transform duration-700 hover:scale-[1.03]"
                 />
               </div>
             </div>
@@ -118,14 +115,14 @@ export function HomePage() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10 home-reveal">
             <div>
               <span className="inline-flex px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-800 font-label-badge text-label-badge font-bold mb-3">
-                امروز فعال است
+                روتینو امروز
               </span>
               <h2 className="font-headline-lg text-[26px] md:text-[32px] font-extrabold text-on-surface">
-                محصولات و خدمات فعلی روتینو
+                روتینو امروز از اینجا شروع می‌شود
               </h2>
             </div>
             <p className="font-body-md text-body-md text-on-surface-variant max-w-md">
-              Podcast، Routino Plus و Routino Studio — نقطه‌های شروع همین مسیر.
+              محتوای قابل‌اعتماد و فضای حرفه‌ای تولید؛ دو مسیری که امروز با آن‌ها تجربه روتینو را می‌سازیم.
             </p>
           </div>
 
@@ -141,23 +138,17 @@ export function HomePage() {
                 <img
                   src={item.image}
                   alt={item.imageAlt}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${item.imageClass ?? ''}`}
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-brand-charcoal via-brand-charcoal/55 to-transparent"
                   aria-hidden="true"
                 />
                 <div className="relative z-10 p-6 md:p-8 flex flex-col gap-3">
-                  <span
-                    className="self-start text-[11px] font-bold tracking-[0.14em] text-on-primary/70 uppercase"
-                    dir="ltr"
-                  >
+                  <span className="self-start px-2.5 py-1 rounded-full bg-white/15 text-[12px] font-bold text-on-primary/90">
                     {item.eyebrow}
                   </span>
-                  <h3
-                    className="font-headline-md text-[22px] md:text-headline-md font-bold text-on-primary"
-                    dir="ltr"
-                  >
+                  <h3 className="font-headline-md text-[22px] md:text-headline-md font-bold text-on-primary">
                     {item.title}
                   </h3>
                   <p className="font-body-md text-[15px] text-on-primary/80 leading-relaxed max-w-md">
@@ -177,20 +168,20 @@ export function HomePage() {
       </section>
 
       {/* Visual bridge into future */}
-      <section className="relative w-full min-h-[280px] md:min-h-[340px] overflow-hidden mb-4">
+      <section className="relative w-full min-h-[220px] md:min-h-[300px] overflow-hidden mb-4 bg-[#0b0204]">
         <img
-          src="/images/0.jpg"
+          src="/images/home-future-bridge.jpg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-contain md:object-cover object-center"
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-brand-charcoal/70" aria-hidden="true" />
-        <div className="relative z-10 max-w-[1240px] mx-auto px-gutter-lg h-full min-h-[280px] md:min-h-[340px] flex items-center justify-center text-center">
+        <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
+        <div className="relative z-10 max-w-[1240px] mx-auto px-gutter-lg h-full min-h-[220px] md:min-h-[300px] flex items-center justify-center text-center">
           <div className="max-w-2xl home-reveal">
-            <p className="font-headline-md text-[20px] md:text-[28px] font-extrabold text-on-primary leading-snug">
+            <p className="font-headline-md text-[20px] md:text-[28px] font-extrabold text-on-primary leading-snug drop-shadow-[0_2px_12px_rgba(0,0,0,0.65)]">
               آنچه امروز می‌بینید، فقط شروع ساختن یک اکوسیستم بزرگ‌تر است.
             </p>
-            <p className="mt-3 font-body-md text-body-md text-on-primary/75">
+            <p className="mt-3 font-body-md text-body-md text-on-primary/85 drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)]">
               در ادامه، مسیر آینده برند روتینو را ببینید.
             </p>
           </div>

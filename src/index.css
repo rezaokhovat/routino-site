@@ -269,10 +269,10 @@ main > :last-child {
 
 @keyframes home-ken {
   from {
-    transform: scale(1.08);
+    transform: scale(1);
   }
   to {
-    transform: scale(1);
+    transform: scale(1.03);
   }
 }
 

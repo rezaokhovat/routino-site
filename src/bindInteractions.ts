@@ -534,10 +534,11 @@ function escapeHtml(value: string) {
 }
 
 function bindVideoShowcase(root: HTMLElement) {
-  const reel = root.querySelector<HTMLElement>('#video-reel')
+  const reelEl = root.querySelector<HTMLElement>('#video-reel')
   const btnPrev = root.querySelector('#video-reel-prev')
   const btnNext = root.querySelector('#video-reel-next')
-  if (!reel || showcaseVideos.length === 0) return () => {}
+  if (!reelEl || showcaseVideos.length === 0) return () => {}
+  const reel = reelEl
 
   type CardRefs = {
     card: HTMLButtonElement
@@ -720,7 +721,7 @@ function bindVideoShowcase(root: HTMLElement) {
     `
 
     const video = card.querySelector('video')
-    const icon = card.querySelector('.video-portrait-play-icon .material-symbols-outlined')
+    const icon = card.querySelector<HTMLElement>('.video-portrait-play-icon .material-symbols-outlined')
     if (!video || !icon) return
 
     const refs: CardRefs = { card, video, icon }
