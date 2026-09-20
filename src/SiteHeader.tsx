@@ -42,9 +42,10 @@ export function SiteHeader() {
             <a
               className="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center hover:bg-brand-red hover:text-on-primary transition-colors"
               href="https://www.instagram.com/routino.studio/"
-              rel="noopener noreferrer"
+              rel="me noopener noreferrer"
               target="_blank"
-              title="اینستاگرام"
+              title="اینستاگرام روتینو"
+              aria-label="اینستاگرام روتینو"
             >
               <span className="material-symbols-outlined text-[15px]">photo_camera</span>
             </a>
@@ -53,7 +54,11 @@ export function SiteHeader() {
         <div className="h-[72px] flex items-center justify-between gap-gutter-md">
           <div className="flex items-center gap-gutter-xl">
             <RoutinoLogo height={48} onClick={() => setOpen(false)} />
-            <nav className="hidden xl:flex items-center gap-gutter-xs p-1 bg-surface-container/60 rounded-xl" id="main-nav">
+            <nav
+              className="hidden xl:flex items-center gap-gutter-xs p-1 bg-surface-container/60 rounded-xl"
+              id="main-nav"
+              aria-label="منوی اصلی"
+            >
               {siteNav.map((item) => (
                 <NavLink
                   key={item.to}

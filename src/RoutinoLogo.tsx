@@ -18,7 +18,7 @@ export function RoutinoLogo({
   const img = (
     <img
       src="/brand/routino-logo.png"
-      alt="Routino"
+      alt="روتینو (Routino)"
       width={height}
       height={height}
       className="object-contain rounded-xl shadow-[0_4px_16px_rgba(217,31,64,0.25)]"

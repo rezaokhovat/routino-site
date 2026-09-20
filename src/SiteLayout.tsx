@@ -2,14 +2,10 @@ import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
-import { pageTitles } from './siteNav'
+import { SeoManager } from './seo/SeoManager'
 
 export function SiteLayout() {
   const { pathname, hash } = useLocation()
-
-  useEffect(() => {
-    document.title = pageTitles[pathname] ?? 'روتینو'
-  }, [pathname])
 
   useEffect(() => {
     if (hash) {
@@ -24,8 +20,14 @@ export function SiteLayout() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        رفتن به محتوای اصلی
+      </a>
+      <SeoManager />
       <SiteHeader />
-      <Outlet />
+      <div id="main-content">
+        <Outlet />
+      </div>
       <SiteFooter />
     </>
   )

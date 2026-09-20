@@ -62,7 +62,7 @@ export function SiteFooter() {
             <span className="font-headline-sm text-headline-sm font-bold text-on-primary border-r-4 border-brand-red pr-3">
               ارتباط با روتینو
             </span>
-            <div className="flex flex-col gap-3 text-secondary-fixed font-body-md text-body-md">
+            <address className="flex flex-col gap-3 text-secondary-fixed font-body-md text-body-md not-italic">
               <div className="flex items-start gap-2.5">
                 <span className="material-symbols-outlined text-brand-red text-[20px] shrink-0 mt-0.5">
                   location_on
@@ -85,11 +85,14 @@ export function SiteFooter() {
                   directions_subway
                 </span>
               </div>
-            </div>
+            </address>
           </div>
         </div>
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-md text-body-md text-secondary-fixed">
-          <p>© کلیه حقوق مادی و معنوی متعلق به «روتینو (Routino)» می‌باشد.</p>
+          <p>© ۱۴۰۵ کلیه حقوق مادی و معنوی متعلق به «روتینو (Routino)» می‌باشد.</p>
+          <a className="hover:text-brand-red transition-colors" href="/sitemap.xml">
+            نقشه سایت
+          </a>
         </div>
       </div>
     </footer>

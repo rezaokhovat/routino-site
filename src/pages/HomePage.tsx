@@ -34,6 +34,10 @@ export function HomePage() {
         <img
           src="/images/home-hero.jpg"
           alt="سبک زندگی سالم روتینو؛ ورزش، خانه و شهر در یک قاب"
+          width={1600}
+          height={900}
+          fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover object-[left_top] origin-top-left home-hero-ken"
         />
         <div
@@ -101,6 +105,10 @@ export function HomePage() {
                 <img
                   src="/images/home-philosophy.jpg"
                   alt="شروع روز با یک انتخاب کوچک؛ بستن بند کفش برای حرکت"
+                  width={1280}
+                  height={800}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover object-[center_20%] transition-transform duration-700 hover:scale-[1.03]"
                 />
               </div>
@@ -138,6 +146,10 @@ export function HomePage() {
                 <img
                   src={item.image}
                   alt={item.imageAlt}
+                  width={1200}
+                  height={800}
+                  loading="lazy"
+                  decoding="async"
                   className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${item.imageClass ?? ''}`}
                 />
                 <div

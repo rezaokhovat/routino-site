@@ -85,9 +85,9 @@ export function ContactPage() {
                 <span className="material-symbols-outlined text-brand-red text-[22px] shrink-0 mt-0.5">
                   directions
                 </span>
-                <span className="font-body-lg text-body-lg text-on-surface leading-relaxed group-hover:text-brand-red transition-colors">
+                <address className="not-italic font-body-lg text-body-lg text-on-surface leading-relaxed group-hover:text-brand-red transition-colors">
                   {studioAddress}
-                </span>
+                </address>
               </a>
               <div className="flex flex-wrap gap-3">
                 <a
