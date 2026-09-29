@@ -56,6 +56,9 @@ export function SiteFooter() {
                   <Link to={item.to}>{item.label}</Link>
                 </li>
               ))}
+              <li className="hover:text-brand-red transition-colors">
+                <Link to="/studio/packages">پکیج‌ها</Link>
+              </li>
             </ul>
           </div>
           <div className="lg:col-span-3 flex flex-col gap-3">

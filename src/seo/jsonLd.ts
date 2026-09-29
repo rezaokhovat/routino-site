@@ -1,4 +1,5 @@
 import { SITE, absoluteUrl, studioFaqs, type SeoPage } from './config.ts'
+import { packagesPath } from '../packages/offerPackages.ts'
 
 function businessNode() {
   return {
@@ -52,7 +53,39 @@ function breadcrumbNode(page: SeoPage) {
       item: SITE.origin + '/',
     },
   ]
-  if (page.path !== '/') {
+  if (page.path.startsWith(`${packagesPath}/`)) {
+    items.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: 'استودیو',
+      item: absoluteUrl('/studio'),
+    })
+    items.push({
+      '@type': 'ListItem',
+      position: 3,
+      name: 'پکیج‌ها',
+      item: absoluteUrl(packagesPath),
+    })
+    items.push({
+      '@type': 'ListItem',
+      position: 4,
+      name: page.shortTitle,
+      item: absoluteUrl(page.path),
+    })
+  } else if (page.path === packagesPath) {
+    items.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: 'استودیو',
+      item: absoluteUrl('/studio'),
+    })
+    items.push({
+      '@type': 'ListItem',
+      position: 3,
+      name: 'پکیج‌ها',
+      item: absoluteUrl(packagesPath),
+    })
+  } else if (page.path !== '/') {
     items.push({
       '@type': 'ListItem',
       position: 2,
@@ -124,6 +157,29 @@ export function buildJsonLd(page: SeoPage) {
       name: page.title,
       description: page.description,
       isPartOf: { '@id': `${SITE.origin}/#website` },
+    })
+  }
+
+  if (page.path === packagesPath) {
+    graph.push({
+      '@type': 'CollectionPage',
+      '@id': `${canonical}#packages`,
+      url: canonical,
+      name: page.title,
+      description: page.description,
+      isPartOf: { '@id': `${SITE.origin}/#website` },
+    })
+  }
+
+  if (page.path.startsWith(`${packagesPath}/`)) {
+    graph.push({
+      '@type': 'Service',
+      '@id': `${canonical}#offer`,
+      name: page.shortTitle,
+      description: page.description,
+      url: canonical,
+      provider: { '@id': `${SITE.origin}/#business` },
+      areaServed: SITE.locality,
     })
   }
 

@@ -1,3 +1,5 @@
+import { offerPackages, packageDetailPath, packagesPath } from '../packages/offerPackages.ts'
+
 export const SITE = {
   origin: 'https://routino.ai',
   name: 'روتینو',
@@ -92,6 +94,26 @@ export const seoPages: SeoPage[] = [
     image: '/images/home-studio.jpg',
     imageAlt: 'آدرس و فضای استودیو روتینو در کرج',
   },
+  {
+    path: packagesPath,
+    fileName: 'studio-packages.html',
+    title: 'پکیج‌های روتینو | حمایت از کسب و کارها',
+    description:
+      'طرح حمایت از کسب‌وکارها در استودیو روتینو: چهار تا پنج ریلز برای اینستاگرام شما. مشخصات را بفرستید تا تماس بگیریم.',
+    shortTitle: 'پکیج‌ها',
+    image: '/images/studio-location-01.jpg',
+    imageAlt: 'میز ضبط استودیو روتینو با پرده و لپ‌تاپ',
+  },
+  ...offerPackages.map((pkg) => ({
+    path: packageDetailPath(pkg.slug),
+    fileName: `studio-packages-${pkg.slug}.html`,
+    title: `${pkg.title} | پکیج‌های روتینو`,
+    description:
+      pkg.seoDescription ?? `پکیج ${pkg.title} در استودیو روتینو. جزئیات پکیج را ببینید و درخواست تماس بفرستید.`,
+    shortTitle: pkg.title,
+    image: pkg.image ?? '/images/studio-location-01.jpg',
+    imageAlt: pkg.imageAlt ?? pkg.title,
+  })),
 ]
 
 export const notFoundSeo: SeoPage = {

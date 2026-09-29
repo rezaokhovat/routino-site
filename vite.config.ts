@@ -7,8 +7,17 @@ import { defineConfig, type Plugin, createServer } from 'vite'
 function prettyUrls(): Plugin {
   const rewrite = (url?: string) => {
     if (!url) return url
-    const [path, query] = url.split('?')
-    const match = path.match(/^\/(studio|podcast|about|contact)\/?$/)
+    const [pathname, query] = url.split('?')
+    const nestedPackage = pathname.match(/^\/studio\/packages\/([^/]+)\/?$/)
+    if (nestedPackage) {
+      const next = `/studio-packages-${nestedPackage[1]}.html`
+      return query ? `${next}?${query}` : next
+    }
+    if (pathname === '/studio/packages' || pathname === '/studio/packages/') {
+      const next = '/studio-packages.html'
+      return query ? `${next}?${query}` : next
+    }
+    const match = pathname.match(/^\/(studio|podcast|about|contact)\/?$/)
     if (!match) return url
     const next = `/${match[1]}.html`
     return query ? `${next}?${query}` : next
@@ -23,6 +32,8 @@ function prettyUrls(): Plugin {
     },
   }
 }
+
+function prerenderRoutes(): Plugin {
   return {
     name: 'prerender-routes',
     apply: 'build',
