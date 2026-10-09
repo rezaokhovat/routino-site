@@ -1,3 +1,4 @@
+import { api, ApiError, getToken, type Reservation } from './api/client'
 import {
   formatHour,
   formatRange,
@@ -5,6 +6,8 @@ import {
   STUDIO_CLOSE,
   STUDIO_OPEN,
   summarizeDay,
+  type ScheduleDay,
+  type TimeSlot,
 } from './StudioAvailability.data'
 import { showcaseVideos } from './videoShowcase.data'
 
@@ -330,6 +333,12 @@ export function bindInteractions(root: HTMLElement) {
 
   const unbindSchedule = bindStudioSchedule(root)
   const unbindVideo = bindVideoShowcase(root)
+  const btnBookOrder = root.querySelector('#btnBookOrder')
+  const onBookOrder = (event: Event) => {
+    event.preventDefault()
+    document.getElementById('schedule')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+  btnBookOrder?.addEventListener('click', onBookOrder)
 
   return () => {
     durationRange.removeEventListener('input', onDurationInput)
@@ -346,6 +355,7 @@ export function bindInteractions(root: HTMLElement) {
     dots.forEach((dot, i) => dot.removeEventListener('click', dotHandlers[i]))
     sliderWrapper?.removeEventListener('mouseenter', stopAutoplay)
     sliderWrapper?.removeEventListener('mouseleave', startAutoplay)
+    btnBookOrder?.removeEventListener('click', onBookOrder)
     stopAutoplay()
     unbindSchedule()
     unbindVideo()
@@ -364,14 +374,10 @@ function bindStudioSchedule(root: HTMLElement) {
 
   if (!tabsEl || !timelineEl || !listEl) return () => {}
 
-  let activeId =
-    scheduleWeek.find((d) => d.isToday)?.id ?? scheduleWeek[0].id
-
-  const weekBooked = scheduleWeek.reduce((n, d) => n + summarizeDay(d).booked, 0)
-  const weekAvailable = scheduleWeek.reduce((n, d) => n + summarizeDay(d).available, 0)
-  if (weekSummaryEl) {
-    weekSummaryEl.textContent = `این هفته: ${weekAvailable.toLocaleString('fa-IR')} ساعت آزاد / ${weekBooked.toLocaleString('fa-IR')} ساعت رزرو`
-  }
+  let week: ScheduleDay[] = []
+  let activeId = ''
+  let disposed = false
+  let live = false
 
   if (axisEl) {
     axisEl.innerHTML = ''
@@ -382,9 +388,13 @@ function bindStudioSchedule(root: HTMLElement) {
     }
   }
 
+  function setWeekSummary(text: string) {
+    if (weekSummaryEl) weekSummaryEl.textContent = text
+  }
+
   function renderTabs() {
     tabsEl!.innerHTML = ''
-    scheduleWeek.forEach((day) => {
+    week.forEach((day) => {
       const s = summarizeDay(day)
       const active = day.id === activeId
       const btn = document.createElement('button')
@@ -419,8 +429,32 @@ function bindStudioSchedule(root: HTMLElement) {
     })
   }
 
+  async function bookSlot(day: ScheduleDay, slot: TimeSlot) {
+    if (!getToken()) {
+      window.location.assign(`/login?next=${encodeURIComponent('/studio#schedule')}`)
+      return
+    }
+    const date = day.date ?? day.id
+    const ok = window.confirm(`رزرو ${day.weekday} ${day.dateLabel} از ${formatRange(slot.start, slot.end)}؟`)
+    if (!ok) return
+    try {
+      await api<Reservation>('/api/reservations', {
+        method: 'POST',
+        body: JSON.stringify({
+          date,
+          startHour: slot.start,
+          endHour: slot.end,
+        }),
+      })
+      await load()
+    } catch (err) {
+      window.alert(err instanceof ApiError ? err.message : 'رزرو انجام نشد. دوباره تلاش کنید.')
+    }
+  }
+
   function renderDay() {
-    const day = scheduleWeek.find((d) => d.id === activeId) ?? scheduleWeek[0]
+    const day = week.find((d) => d.id === activeId) ?? week[0]
+    if (!day) return
     const summary = summarizeDay(day)
 
     if (titleEl) titleEl.textContent = `برنامهٔ ${day.weekday} — ${day.dateLabel}`
@@ -510,17 +544,59 @@ function bindStudioSchedule(root: HTMLElement) {
           </p>
         </div>
       `
+      if (!booked && live) {
+        const body = li.querySelector('div.min-w-0')
+        const bookBtn = document.createElement('button')
+        bookBtn.type = 'button'
+        bookBtn.className =
+          'mt-2 inline-flex items-center gap-1 text-[12px] font-bold text-brand-red hover:underline'
+        bookBtn.textContent = 'رزرو این بازه'
+        bookBtn.addEventListener('click', () => {
+          void bookSlot(day, slot)
+        })
+        body?.appendChild(bookBtn)
+      }
       listEl!.appendChild(li)
     })
   }
 
   function render() {
+    if (week.length === 0) return
+    const weekBooked = week.reduce((n, d) => n + summarizeDay(d).booked, 0)
+    const weekAvailable = week.reduce((n, d) => n + summarizeDay(d).available, 0)
+    if (live) {
+      setWeekSummary(
+        `این هفته: ${weekAvailable.toLocaleString('fa-IR')} ساعت آزاد / ${weekBooked.toLocaleString('fa-IR')} ساعت رزرو`,
+      )
+    }
     renderTabs()
     renderDay()
   }
 
-  render()
+  async function load() {
+    setWeekSummary('در حال بارگذاری تقویم…')
+    try {
+      const data = await api<{ days: ScheduleDay[] }>('/api/schedule?days=7')
+      if (disposed) return
+      week = data.days
+      live = true
+      activeId = week.some((d) => d.id === activeId)
+        ? activeId
+        : (week.find((d) => d.isToday)?.id ?? week[0]?.id ?? '')
+      render()
+    } catch {
+      if (disposed) return
+      week = scheduleWeek
+      live = false
+      activeId = week.find((d) => d.isToday)?.id ?? week[0].id
+      setWeekSummary('تقویم زنده در دسترس نیست. اتصال API را بررسی کنید.')
+      render()
+    }
+  }
+
+  void load()
   return () => {
+    disposed = true
     tabsEl.innerHTML = ''
   }
 }

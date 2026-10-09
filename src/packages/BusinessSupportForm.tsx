@@ -1,5 +1,7 @@
-import { useState, type FormEvent } from 'react'
-import { SITE } from '../seo/config.ts'
+import { useEffect, useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
+import { api, ApiError } from '../api/client'
+import { useAuth } from '../auth/AuthProvider'
 import { JobTitleSearch } from './JobTitleSearch'
 
 const focusRing =
@@ -21,19 +23,21 @@ function isValidMobile(value: string) {
 }
 
 export function BusinessSupportForm() {
+  const { user } = useAuth()
   const [jobTitle, setJobTitle] = useState('')
   const [otherJob, setOtherJob] = useState('')
   const [mobile, setMobile] = useState('')
   const [instagram, setInstagram] = useState('')
   const [otherSocials, setOtherSocials] = useState('')
   const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
   const [sent, setSent] = useState(false)
-  const [message, setMessage] = useState('')
 
-  const waHref = `https://wa.me/${SITE.phone.replace(/^\+/, '')}?text=${encodeURIComponent(message)}`
-  const mailHref = `mailto:${SITE.email}?subject=${encodeURIComponent('درخواست طرح حمایت از کسب و کارها')}&body=${encodeURIComponent(message)}`
+  useEffect(() => {
+    if (user?.mobile && !mobile) setMobile(user.mobile)
+  }, [user, mobile])
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
 
@@ -51,53 +55,40 @@ export function BusinessSupportForm() {
       return
     }
 
-    const lines = [
-      'درخواست طرح حمایت از کسب و کارها',
-      '',
-      `عنوان شغلی: ${job}`,
-      `شماره همراه: ${normalizeMobile(mobile)}`,
-      `اینستاگرام: ${instagram.trim()}`,
-    ]
-    if (otherSocials.trim()) {
-      lines.push(`صفحه‌های دیگر: ${otherSocials.trim()}`)
+    setBusy(true)
+    try {
+      await api('/api/business-support', {
+        method: 'POST',
+        body: JSON.stringify({
+          jobTitle: job,
+          mobile: normalizeMobile(mobile),
+          instagram: instagram.trim(),
+          otherSocials: otherSocials.trim() || null,
+        }),
+      })
+      setSent(true)
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'ثبت درخواست ناموفق بود. دوباره تلاش کنید.')
+    } finally {
+      setBusy(false)
     }
-
-    const text = lines.join('\n')
-    setMessage(text)
-    setSent(true)
-    window.open(`https://wa.me/${SITE.phone.replace(/^\+/, '')}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer')
   }
 
   if (sent) {
     return (
       <div className="rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-5 sm:p-8 flex flex-col gap-3">
-        <h3 className="font-headline-md text-[20px] font-bold text-on-surface">درخواست آماده ارسال شد</h3>
+        <h3 className="font-headline-md text-[20px] font-bold text-on-surface">درخواست ثبت شد</h3>
         <p className="font-body-md text-[15px] leading-7 sm:text-body-md text-on-surface-variant">
-          اگر واتساپ باز شد، پیام را بفرستید. در غیر این صورت از ایمیل یا تماس استفاده کنید تا مشخصات را
-          ثبت کنیم.
+          مشخصات شما ذخیره شد. تیم روتینو برای هماهنگی ضبط با همین شماره تماس می‌گیرد.
         </p>
-        <div className="mt-2 flex flex-col sm:flex-row sm:flex-wrap gap-3">
-          <a
-            href={waHref}
-            target="_blank"
-            rel="noreferrer"
-            className={`inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold ${focusRing}`}
+        {user ? (
+          <Link
+            to="/profile"
+            className={`mt-2 inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold ${focusRing}`}
           >
-            ارسال در واتساپ
-          </a>
-          <a
-            href={mailHref}
-            className={`inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 ${focusRing}`}
-          >
-            ارسال ایمیل
-          </a>
-          <a
-            href={`tel:${SITE.phone}`}
-            className={`inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 ${focusRing}`}
-          >
-            تماس {SITE.phoneDisplay}
-          </a>
-        </div>
+            دیدن درخواست‌ها در پروفایل
+          </Link>
+        ) : null}
       </div>
     )
   }
@@ -110,10 +101,12 @@ export function BusinessSupportForm() {
     >
       <div>
         <h2 className="font-headline-md text-[20px] sm:text-[22px] font-bold text-on-surface">
-          مشخصات را بفرستید تا تماس بگیریم
+          مشخصات را ثبت کنید تا تماس بگیریم
         </h2>
         <p className="font-body-md text-body-md text-on-surface-variant mt-2 leading-relaxed">
-          عنوان شغلی، شماره همراه و آدرس صفحه‌های مجازی‌تان را وارد کنید.
+          {user
+            ? 'درخواست به حساب شما اضافه می‌شود و برای هماهنگی ضبط با شما تماس می‌گیریم.'
+            : 'عنوان شغلی، شماره همراه و آدرس صفحه‌های مجازی‌تان را وارد کنید. نیازی به واتساپ یا تماس از طرف شما نیست.'}
         </p>
       </div>
 
@@ -180,9 +173,10 @@ export function BusinessSupportForm() {
 
       <button
         type="submit"
-        className={`w-full sm:w-auto sm:self-start inline-flex items-center justify-center min-h-12 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 ${focusRing}`}
+        disabled={busy}
+        className={`w-full sm:w-auto sm:self-start inline-flex items-center justify-center min-h-12 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 disabled:opacity-60 ${focusRing}`}
       >
-        ثبت درخواست تماس
+        {busy ? 'در حال ثبت…' : 'ثبت درخواست'}
       </button>
     </form>
   )

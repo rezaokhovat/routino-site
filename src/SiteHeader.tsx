@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useAuth } from './auth/AuthProvider'
 import { RoutinoLogo } from './RoutinoLogo'
 import { siteNav } from './siteNav'
 
@@ -10,6 +11,9 @@ function navClassName({ isActive }: { isActive: boolean }) {
 export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const { pathname } = useLocation()
+  const { user, loading } = useAuth()
+  const accountTo = user ? '/profile' : '/login'
+  const accountLabel = user ? 'پروفایل' : 'ورود'
 
   useEffect(() => {
     setOpen(false)
@@ -72,6 +76,15 @@ export function SiteHeader() {
             </nav>
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            {!loading ? (
+              <Link
+                to={accountTo}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-on-surface font-headline-sm text-[13px] sm:text-[14px] font-bold hover:text-brand-red transition-colors"
+              >
+                <span className="material-symbols-outlined text-[18px]">{user ? 'person' : 'login'}</span>
+                <span>{accountLabel}</span>
+              </Link>
+            ) : null}
             <button
               type="button"
               className="xl:hidden w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface hover:bg-brand-red hover:text-on-primary transition-colors"
@@ -110,6 +123,13 @@ export function SiteHeader() {
               {item.label}
             </NavLink>
           ))}
+          <Link
+            to={accountTo}
+            className="nav-link"
+            onClick={() => setOpen(false)}
+          >
+            {accountLabel}
+          </Link>
         </div>
       </div>
     </header>

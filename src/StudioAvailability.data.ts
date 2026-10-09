@@ -9,6 +9,7 @@ export type TimeSlot = {
 
 export type ScheduleDay = {
   id: string
+  date?: string
   weekday: string
   dateLabel: string
   isToday?: boolean

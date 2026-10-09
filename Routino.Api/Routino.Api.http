@@ -1,0 +1,12 @@
+@Routino.Api_HostAddress = http://127.0.0.1:5080
+
+POST {{Routino.Api_HostAddress}}/api/auth/otp/request
+Content-Type: application/json
+
+{
+  "mobile": "09121234567"
+}
+
+###
+
+GET {{Routino.Api_HostAddress}}/api/schedule?days=7

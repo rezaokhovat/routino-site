@@ -17,7 +17,7 @@ function prettyUrls(): Plugin {
       const next = '/studio-packages.html'
       return query ? `${next}?${query}` : next
     }
-    const match = pathname.match(/^\/(studio|podcast|about|contact)\/?$/)
+    const match = pathname.match(/^\/(studio|podcast|about|contact|login|profile)\/?$/)
     if (!match) return url
     const next = `/${match[1]}.html`
     return query ? `${next}?${query}` : next
@@ -79,7 +79,24 @@ function prerenderRoutes(): Plugin {
 
 export default defineConfig({
   plugins: [tailwindcss(), react(), prettyUrls(), prerenderRoutes()],
+  server: {
+    watch: {
+      ignored: ['**/Routino.Api/**', '**/.vs/**'],
+    },
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5080',
+        changeOrigin: true,
+      },
+    },
+  },
   preview: {
     port: 4173,
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5080',
+        changeOrigin: true,
+      },
+    },
   },
 })
