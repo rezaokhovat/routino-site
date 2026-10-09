@@ -74,7 +74,7 @@ export function SiteFooter() {
               </div>
               <div className="flex items-center gap-2.5">
                 <span className="material-symbols-outlined text-brand-red text-[20px] shrink-0">call</span>
-                <a href="tel:09903760867">شماره رزرو و هماهنگی: ۰۹۹۰۳۷۶۰۸۶۷</a>
+                <a href="tel:09225171314">شماره رزرو و هماهنگی: ۰۹۲۲۵۱۷۱۳۱۴</a>
               </div>
               <div className="flex items-center gap-2.5">
                 <span className="material-symbols-outlined text-brand-red text-[20px] shrink-0">mail</span>

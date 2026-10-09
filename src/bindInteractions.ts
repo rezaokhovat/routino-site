@@ -478,7 +478,7 @@ function bindStudioSchedule(root: HTMLElement) {
     listEl!.innerHTML = ''
     if (day.closed) {
       listEl!.innerHTML =
-        '<li class="text-sm text-on-surface-variant leading-relaxed">استودیو در این روز تعطیل است. ساعات کاری عادی شنبه تا جمعه از ۱۰ صبح تا ۱۰ شب می‌باشد. برای رزرو با شماره ۰۹۹۰۳۷۶۰۸۶۷ تماس بگیرید.</li>'
+        '<li class="text-sm text-on-surface-variant leading-relaxed">استودیو در این روز تعطیل است. ساعات کاری عادی شنبه تا جمعه از ۱۰ صبح تا ۱۰ شب می‌باشد. برای رزرو با شماره ۰۹۲۲۵۱۷۱۳۱۴ تماس بگیرید.</li>'
       return
     }
 

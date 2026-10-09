@@ -22,13 +22,13 @@ export function SiteHeader() {
           <div className="flex items-center gap-gutter-md">
             <a
               className="flex items-center gap-1.5 hover:text-brand-red transition-colors"
-              href="tel:09903760867"
+              href="tel:09225171314"
             >
               <span className="material-symbols-outlined text-[16px]">call</span>
-              <span>۰۹۹۰۳۷۶۰۸۶۷</span>
+              <span>۰۹۲۲۵۱۷۱۳۱۴</span>
             </a>
-            <span className="w-1 h-1 rounded-full bg-outline-variant" />
-            <span className="flex items-center gap-1.5">
+            <span className="w-1 h-1 rounded-full bg-outline-variant hidden sm:block" />
+            <span className="hidden sm:flex items-center gap-1.5 whitespace-nowrap">
               <span className="material-symbols-outlined text-[16px]">schedule</span>
               <span>شنبه تا جمعه: ۱۰ صبح تا ۱۰ شب</span>
             </span>
@@ -83,11 +83,12 @@ export function SiteHeader() {
               <span className="material-symbols-outlined text-[24px]">{open ? 'close' : 'menu'}</span>
             </button>
             <a
-              className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange hover:opacity-95 text-on-primary font-headline-sm text-[15px] font-bold shadow-[0_6px_20px_-4px_rgba(217,31,64,0.4)] transition-all hover:-translate-y-0.5"
-              href="tel:09903760867"
+              className="relative inline-flex items-center gap-2 px-3 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange hover:opacity-95 text-on-primary font-headline-sm text-[14px] sm:text-[15px] font-bold shadow-[0_6px_20px_-4px_rgba(217,31,64,0.4)] transition-all hover:-translate-y-0.5"
+              href="tel:09225171314"
             >
               <span className="material-symbols-outlined text-[18px]">headset_mic</span>
-              <span>رزرو و هماهنگی آفیش</span>
+              <span className="sm:hidden">رزرو</span>
+              <span className="hidden sm:inline">رزرو و هماهنگی آفیش</span>
             </a>
             <div className="w-px h-8 bg-outline-variant/50 hidden sm:block" />
           </div>

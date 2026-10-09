@@ -1,12 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { SITE } from '../seo/config.ts'
-import { jobTitles } from './offerPackages'
+import { JobTitleSearch } from './JobTitleSearch'
 
 const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2'
 
 const fieldClass =
-  'w-full rounded-xl border border-outline-variant/40 bg-surface-container-lowest px-4 py-3 font-body-md text-body-md text-on-surface outline-none focus:border-brand-red/60'
+  'w-full min-h-12 rounded-xl border border-outline-variant/40 bg-surface-container-lowest px-4 py-3 font-body-md text-[16px] leading-6 text-on-surface outline-none focus:border-brand-red/60'
 
 function toEnDigits(value: string) {
   return value.replace(/[۰-۹]/g, (digit) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(digit)))
@@ -70,30 +70,30 @@ export function BusinessSupportForm() {
 
   if (sent) {
     return (
-      <div className="rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-6 md:p-8 flex flex-col gap-3">
+      <div className="rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-5 sm:p-8 flex flex-col gap-3">
         <h3 className="font-headline-md text-[20px] font-bold text-on-surface">درخواست آماده ارسال شد</h3>
-        <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+        <p className="font-body-md text-[15px] leading-7 sm:text-body-md text-on-surface-variant">
           اگر واتساپ باز شد، پیام را بفرستید. در غیر این صورت از ایمیل یا تماس استفاده کنید تا مشخصات را
           ثبت کنیم.
         </p>
-        <div className="mt-2 flex flex-wrap gap-3">
+        <div className="mt-2 flex flex-col sm:flex-row sm:flex-wrap gap-3">
           <a
             href={waHref}
             target="_blank"
             rel="noreferrer"
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold ${focusRing}`}
+            className={`inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold ${focusRing}`}
           >
             ارسال در واتساپ
           </a>
           <a
             href={mailHref}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 ${focusRing}`}
+            className={`inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 ${focusRing}`}
           >
             ارسال ایمیل
           </a>
           <a
             href={`tel:${SITE.phone}`}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 ${focusRing}`}
+            className={`inline-flex items-center justify-center min-h-12 px-6 py-3 rounded-xl bg-surface-container-lowest text-on-surface font-headline-sm font-semibold border border-outline-variant/40 ${focusRing}`}
           >
             تماس {SITE.phoneDisplay}
           </a>
@@ -106,10 +106,12 @@ export function BusinessSupportForm() {
     <form
       id="request"
       onSubmit={onSubmit}
-      className="rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-6 md:p-8 flex flex-col gap-5 scroll-mt-28"
+      className="rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-5 sm:p-8 flex flex-col gap-5 scroll-mt-28"
     >
       <div>
-        <h2 className="font-headline-md text-[22px] font-bold text-on-surface">مشخصات را بفرستید تا تماس بگیریم</h2>
+        <h2 className="font-headline-md text-[20px] sm:text-[22px] font-bold text-on-surface">
+          مشخصات را بفرستید تا تماس بگیریم
+        </h2>
         <p className="font-body-md text-body-md text-on-surface-variant mt-2 leading-relaxed">
           عنوان شغلی، شماره همراه و آدرس صفحه‌های مجازی‌تان را وارد کنید.
         </p>
@@ -117,20 +119,7 @@ export function BusinessSupportForm() {
 
       <label className="flex flex-col gap-2">
         <span className="font-headline-sm text-[14px] font-bold text-on-surface">عنوان شغلی</span>
-        <select
-          name="jobTitle"
-          className={fieldClass}
-          value={jobTitle}
-          onChange={(event) => setJobTitle(event.target.value)}
-          required
-        >
-          <option value="">انتخاب کنید</option>
-          {jobTitles.map((title) => (
-            <option key={title} value={title}>
-              {title}
-            </option>
-          ))}
-        </select>
+        <JobTitleSearch value={jobTitle} onChange={setJobTitle} />
       </label>
 
       {jobTitle === 'سایر' ? (
@@ -191,7 +180,7 @@ export function BusinessSupportForm() {
 
       <button
         type="submit"
-        className={`self-start inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 ${focusRing}`}
+        className={`w-full sm:w-auto sm:self-start inline-flex items-center justify-center min-h-12 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 ${focusRing}`}
       >
         ثبت درخواست تماس
       </button>

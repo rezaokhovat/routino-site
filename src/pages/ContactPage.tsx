@@ -25,7 +25,7 @@ export function ContactPage() {
       <section className="pb-16">
         <div className="max-w-[1240px] mx-auto px-gutter-lg grid grid-cols-1 md:grid-cols-3 gap-5">
           <a
-            href="tel:09903760867"
+            href="tel:09225171314"
             className="p-6 rounded-3xl border border-outline-variant/40 bg-[#fcfaf7] flex items-start gap-4 hover:border-brand-red/40 transition-colors"
           >
             <span className="w-12 h-12 rounded-2xl bg-brand-red text-on-primary flex items-center justify-center shrink-0">
@@ -33,7 +33,7 @@ export function ContactPage() {
             </span>
             <div>
               <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">تلفن رزرو</h2>
-              <p className="font-body-md text-body-md text-on-surface-variant mt-1">۰۹۹۰۳۷۶۰۸۶۷</p>
+              <p className="font-body-md text-body-md text-on-surface-variant mt-1">۰۹۲۲۵۱۷۱۳۱۴</p>
             </div>
           </a>
           <a
@@ -123,11 +123,11 @@ export function ContactPage() {
 
         <div className="max-w-[1240px] mx-auto px-gutter-lg mt-6">
           <a
-            href="tel:09903760867"
+            href="tel:09225171314"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/40 hover:opacity-95"
           >
             <span className="material-symbols-outlined text-[22px]">call</span>
-            تماس مستقیم: ۰۹۹۰۳۷۶۰۸۶۷
+            تماس مستقیم: ۰۹۲۲۵۱۷۱۳۱۴
           </a>
         </div>
       </section>

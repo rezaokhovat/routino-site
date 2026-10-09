@@ -49,14 +49,18 @@ function LocationPhoto({
   alt,
   imgClass,
   eager,
+  className,
 }: {
   src: string
   alt: string
   imgClass?: string
   eager?: boolean
+  className?: string
 }) {
   return (
-    <figure className="overflow-hidden rounded-[1.75rem] aspect-[9/16] bg-surface-container-low">
+    <figure
+      className={`overflow-hidden rounded-2xl sm:rounded-[1.75rem] aspect-[9/16] bg-surface-container-low ${className ?? ''}`}
+    >
       <img
         src={src}
         alt={alt}
@@ -73,89 +77,98 @@ function LocationPhoto({
 
 export function BusinessSupportPage() {
   return (
-    <main className="w-full pt-28 bg-surface">
-      <section className="relative overflow-hidden bg-gradient-to-b from-surface-container-low via-surface to-surface pb-12 pt-10">
-        <div className="max-w-[1240px] mx-auto px-gutter-lg flex flex-col-reverse lg:flex-row lg:items-start gap-8 lg:gap-12">
-          <div className="flex-1 flex flex-col gap-5">
-            <Link to={packagesPath} className="self-start text-[13px] font-bold text-brand-red">
+    <main className="w-full pt-28 bg-surface overflow-x-hidden">
+      <section className="relative overflow-hidden bg-gradient-to-b from-surface-container-low via-surface to-surface pb-8 pt-6 sm:pb-12 sm:pt-10">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-gutter-lg flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
+          <div className="flex-1 flex flex-col gap-4 sm:gap-5">
+            <Link to={packagesPath} className="self-start text-[13px] font-bold text-brand-red min-h-11 inline-flex items-center">
               بازگشت به پکیج‌ها
             </Link>
             <span className="self-start px-3.5 py-1.5 rounded-full bg-surface-container text-brand-red font-label-badge text-label-badge">
               طرح استودیو روتینو
             </span>
-            <h1 className="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-extrabold text-on-surface">
+            <h1 className="font-headline-lg text-[26px] leading-9 sm:text-headline-lg-mobile md:text-headline-lg font-extrabold text-on-surface">
               حمایت از کسب و کارها
             </h1>
-            <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+            <p className="font-body-lg text-[15px] leading-7 sm:text-body-lg text-on-surface-variant">
               اگر کسب‌وکار یا پیج اینستاگرام دارید و می‌خواهید با ویدیو دیده شوید، شما را به استودیو دعوت
               می‌کنیم. چهار تا پنج ریلز برایتان می‌سازیم و در صفحه خودتان پخش می‌کنیم.
             </p>
             <a
               href="#request"
-              className="self-start inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
+              className="w-full sm:w-auto sm:self-start inline-flex items-center justify-center gap-2 min-h-12 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
             >
               ثبت مشخصات
             </a>
-            <div className="rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-5 md:p-6">
+            <div className="rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-4 sm:p-6">
               <p className="font-headline-sm text-[15px] font-bold text-on-surface mb-2">شرط طرح</p>
-              <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              <p className="font-body-md text-[14px] leading-6 sm:text-body-md text-on-surface-variant">
                 اگر ریلزها جواب دادند، ویو گرفتند و صفحه به اکسپلور رسید، برای تهیه ویدیوها هزینه معقولی
                 می‌گیریم. اگر این اتفاق نیفتاد، ویدیوها رایگان برای شما ساخته شده‌اند.
               </p>
             </div>
           </div>
-          <div className="w-full max-w-[280px] mx-auto lg:mx-0 shrink-0">
-              <LocationPhoto
-                src="/images/studio-location-01.jpg"
-                alt="لوکیشن استودیو روتینو؛ میز ضبط با بازوی میکروفن RØDE"
-                imgClass="object-[84%_center]"
-                eager
-              />
+          <div className="w-full max-w-[180px] sm:max-w-[220px] lg:max-w-[280px] mx-auto lg:mx-0 shrink-0">
+            <LocationPhoto
+              src="/images/studio-location-01.jpg"
+              alt="لوکیشن استودیو روتینو؛ میز ضبط با بازوی میکروفن RØDE"
+              imgClass="object-[84%_center]"
+              eager
+            />
           </div>
         </div>
       </section>
 
-      <section className="pb-16">
-        <div className="max-w-[1240px] mx-auto px-gutter-lg">
-          <h2 className="font-headline-lg text-[24px] md:text-[30px] font-extrabold text-on-surface mb-6">
+      <section className="pb-10 sm:pb-16">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-gutter-lg">
+          <h2 className="font-headline-lg text-[22px] sm:text-[24px] md:text-[30px] font-extrabold text-on-surface mb-4 sm:mb-6">
             فضای ضبط ریلز
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory overscroll-x-contain pb-2 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:px-0 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
             {gallery.map((item) => (
-              <LocationPhoto key={item.src} src={item.src} alt={item.alt} imgClass={item.imgClass} />
+              <div
+                key={item.src}
+                className="w-[42vw] min-w-[140px] max-w-[180px] shrink-0 snap-start lg:w-auto lg:max-w-none"
+              >
+                <LocationPhoto src={item.src} alt={item.alt} imgClass={item.imgClass} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="pb-16">
-        <div className="max-w-[1240px] mx-auto px-gutter-lg">
-          <h2 className="font-headline-lg text-[24px] md:text-[30px] font-extrabold text-on-surface mb-6">
+      <section className="pb-10 sm:pb-16">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-gutter-lg">
+          <h2 className="font-headline-lg text-[22px] sm:text-[24px] md:text-[30px] font-extrabold text-on-surface mb-4 sm:mb-6">
             مسیر طرح
           </h2>
-          <ol className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <ol className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
             {steps.map((step, index) => (
               <li
                 key={step.title}
-                className="p-6 rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] flex flex-col gap-2"
+                className="p-4 sm:p-6 rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] flex flex-col gap-2"
               >
-                <span className="text-brand-red font-stat-counter text-[28px] font-extrabold">
+                <span className="text-brand-red font-stat-counter text-[24px] sm:text-[28px] font-extrabold">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface">{step.title}</h3>
-                <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">{step.text}</p>
+                <h3 className="font-headline-sm text-[16px] sm:text-headline-sm font-bold text-on-surface">
+                  {step.title}
+                </h3>
+                <p className="font-body-md text-[14px] leading-6 sm:text-body-md text-on-surface-variant">
+                  {step.text}
+                </p>
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="pb-20">
-        <div className="max-w-[1240px] mx-auto px-gutter-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <section className="pb-16 sm:pb-20">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-gutter-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8">
             <BusinessSupportForm />
           </div>
-          <div className="lg:col-span-4 lg:sticky lg:top-32 max-w-md mx-auto lg:max-w-none">
+          <div className="hidden lg:block lg:col-span-4 lg:sticky lg:top-32">
             <LocationPhoto
               src="/images/studio-location-03.jpg"
               alt="میز کار استودیو روتینو با دیوار آبی"
