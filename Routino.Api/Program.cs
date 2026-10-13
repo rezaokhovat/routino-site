@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Routino.Api.Data;
 using Routino.Api.Features.Auth;
+using Routino.Api.Features.Health;
 using Routino.Api.Features.Leads;
 using Routino.Api.Features.Reservations;
 using Routino.Api.Features.Schedule;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<KavenegarOptions>(builder.Configuration.GetSection(KavenegarOptions.SectionName));
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
+builder.Services.Configure<AdminOptions>(builder.Configuration.GetSection(AdminOptions.SectionName));
 
 var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
           ?? throw new InvalidOperationException("Jwt configuration is missing.");
@@ -28,10 +30,7 @@ Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite($"Data Source={dbPath}"));
 
-builder.Services.AddHttpClient<ISmsSender, KavenegarSmsSender>(client =>
-{
-    client.Timeout = TimeSpan.FromSeconds(15);
-});
+builder.Services.AddSingleton<ISmsSender, KavenegarSmsSender>();
 
 builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<AuthService>();
@@ -90,6 +89,7 @@ app.UseCors(corsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHealthEndpoints();
 app.MapAuthEndpoints();
 app.MapScheduleEndpoints();
 app.MapReservationEndpoints();

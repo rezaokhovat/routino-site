@@ -45,6 +45,9 @@ namespace Routino.Api.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Starred")
+                        .HasColumnType("INTEGER");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("TEXT");
 

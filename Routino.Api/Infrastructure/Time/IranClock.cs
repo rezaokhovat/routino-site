@@ -38,6 +38,13 @@ public static class IranClock
         return $"{ToPersianDigits(day)} {PersianMonths[month - 1]}";
     }
 
+    public static string PersianTimeLabel(DateTime local)
+    {
+        var hour = local.Hour.ToString("00", CultureInfo.InvariantCulture);
+        var minute = local.Minute.ToString("00", CultureInfo.InvariantCulture);
+        return $"{ToPersianDigits(hour)}:{ToPersianDigits(minute)}";
+    }
+
     public static string ToPersianDigits(int value) => ToPersianDigits(value.ToString(CultureInfo.InvariantCulture));
 
     public static string ToPersianDigits(string value) =>

@@ -3,12 +3,17 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Routino.Api.Data;
 using Routino.Api.Domain;
+using Microsoft.Extensions.Options;
 using Routino.Api.Infrastructure.Sms;
 using Routino.Api.Infrastructure.Time;
 
 namespace Routino.Api.Features.Auth;
 
-public sealed class AuthService(AppDbContext db, ISmsSender sms, JwtTokenService tokens)
+public sealed class AuthService(
+    AppDbContext db,
+    ISmsSender sms,
+    JwtTokenService tokens,
+    IOptions<AdminOptions> admin)
 {
     public const int OtpTtlSeconds = 120;
     private const int MaxAttempts = 5;
@@ -116,7 +121,9 @@ public sealed class AuthService(AppDbContext db, ISmsSender sms, JwtTokenService
 
         await db.SaveChangesAsync(cancellationToken);
         var token = tokens.Create(user);
-        return (200, new AuthResponseDto(token, new UserDto(user.Id, user.Mobile, user.CreatedAt)));
+        return (200, new AuthResponseDto(
+            token,
+            new UserDto(user.Id, user.Mobile, user.CreatedAt, admin.Value.IsAdmin(user.Mobile))));
     }
 
     private static string Hash(string code)

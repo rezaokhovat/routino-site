@@ -8,6 +8,7 @@ public sealed class BusinessSupportLead
     public required string Mobile { get; set; }
     public required string Instagram { get; set; }
     public string? OtherSocials { get; set; }
+    public bool Starred { get; set; }
     public DateTime CreatedAt { get; set; }
 
     public User? User { get; set; }

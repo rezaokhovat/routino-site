@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Routino.Api.Data;
+using Routino.Api.Features.Auth;
 
 namespace Routino.Api.Features.Reservations;
 
@@ -48,13 +50,23 @@ public static class ReservationEndpoints
 
     public static void MapMeEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/me", async (AppDbContext db, ClaimsPrincipal user, CancellationToken ct) =>
+        app.MapGet("/api/me", async (
+            AppDbContext db,
+            ClaimsPrincipal user,
+            IOptions<AdminOptions> admin,
+            CancellationToken ct) =>
         {
             var userId = ReservationService.UserId(user);
             if (userId is null) return Results.Unauthorized();
             var found = await db.Users.FindAsync([userId.Value], ct);
             if (found is null) return Results.Unauthorized();
-            return Results.Ok(new { found.Id, found.Mobile, found.CreatedAt });
+            return Results.Ok(new
+            {
+                found.Id,
+                found.Mobile,
+                found.CreatedAt,
+                IsAdmin = admin.Value.IsAdmin(found.Mobile),
+            });
         }).RequireAuthorization();
     }
 }

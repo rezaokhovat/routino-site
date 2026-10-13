@@ -4,6 +4,7 @@ export type ApiUser = {
   id: string
   mobile: string
   createdAt: string
+  isAdmin?: boolean
 }
 
 export type AuthResponse = {
@@ -36,7 +37,9 @@ export type BusinessSupportLead = {
   otherSocials?: string | null
   createdAt: string
   dateLabel: string
+  timeLabel?: string
   linkedToAccount: boolean
+  starred?: boolean
 }
 
 export type Reservation = {

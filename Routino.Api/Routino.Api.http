@@ -1,5 +1,9 @@
 @Routino.Api_HostAddress = http://127.0.0.1:5080
 
+GET {{Routino.Api_HostAddress}}/api/health
+
+###
+
 POST {{Routino.Api_HostAddress}}/api/auth/otp/request
 Content-Type: application/json
 
@@ -10,3 +14,23 @@ Content-Type: application/json
 ###
 
 GET {{Routino.Api_HostAddress}}/api/schedule?days=7
+
+###
+
+GET {{Routino.Api_HostAddress}}/api/business-support/admin
+Authorization: Bearer {{token}}
+
+###
+
+GET {{Routino.Api_HostAddress}}/api/business-support/admin?q=پزشک
+Authorization: Bearer {{token}}
+
+###
+
+POST {{Routino.Api_HostAddress}}/api/business-support/admin/00000000-0000-0000-0000-000000000000/star
+Authorization: Bearer {{token}}
+
+###
+
+DELETE {{Routino.Api_HostAddress}}/api/business-support/admin/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{token}}

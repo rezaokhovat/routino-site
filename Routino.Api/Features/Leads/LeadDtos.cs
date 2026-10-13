@@ -17,7 +17,9 @@ public sealed record LeadDto(
     string? OtherSocials,
     DateTime CreatedAt,
     string DateLabel,
-    bool LinkedToAccount);
+    string TimeLabel,
+    bool LinkedToAccount,
+    bool Starred);
 
 public static class LeadMapper
 {
@@ -34,6 +36,8 @@ public static class LeadMapper
             lead.OtherSocials,
             lead.CreatedAt,
             IranClock.PersianDateLabel(DateOnly.FromDateTime(local.DateTime)),
-            lead.UserId is not null);
+            IranClock.PersianTimeLabel(local.DateTime),
+            lead.UserId is not null,
+            lead.Starred);
     }
 }

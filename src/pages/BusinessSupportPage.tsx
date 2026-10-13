@@ -6,20 +6,57 @@ const steps = [
   {
     title: 'مشخصات را می‌فرستید',
     text: 'عنوان شغلی، شماره همراه و آدرس اینستاگرام را ثبت می‌کنید تا با شما تماس بگیریم.',
+    icon: 'edit_note',
   },
   {
     title: 'برای ضبط می‌آیید',
     text: 'هماهنگ می‌کنیم به استودیو بیایید و محتوا را ضبط کنیم.',
+    icon: 'videocam',
   },
   {
     title: '۴ تا ۵ ریلز می‌سازیم',
     text: 'ویدیوها را آماده می‌کنیم و در صفحه اینستاگرام خودتان پخش می‌کنیم.',
+    icon: 'movie',
   },
   {
     title: 'اگر دیده شد، هزینه معقول',
     text: 'اگر ریلزها دید گرفتند و صفحه به اکسپلور رسید، هزینه معقول تهیه ویدیوها را می‌گیریم. اگر این اتفاق نیفتاد، ساخت ویدیوها برای شما رایگان بوده است.',
+    icon: 'flag',
   },
 ]
+
+function stepNumber(index: number) {
+  return String(index + 1)
+    .padStart(2, '0')
+    .replace(/\d/g, (digit) => '۰۱۲۳۴۵۶۷۸۹'[Number(digit)] ?? digit)
+}
+
+function StepStation({
+  step,
+  index,
+  className,
+}: {
+  step: (typeof steps)[number]
+  index: number
+  className?: string
+}) {
+  return (
+    <article
+      className={`relative rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-4 sm:p-5 flex flex-col gap-2 ${className ?? ''}`}
+    >
+      <div className="flex items-center gap-3">
+        <span className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-red to-brand-orange text-on-primary font-stat-counter text-[18px] font-extrabold flex items-center justify-center shrink-0 shadow-lg shadow-brand-red/25">
+          {stepNumber(index)}
+        </span>
+        <span className="w-10 h-10 rounded-xl bg-surface-container text-brand-red flex items-center justify-center shrink-0">
+          <span className="material-symbols-outlined text-[22px]">{step.icon}</span>
+        </span>
+      </div>
+      <h3 className="font-headline-sm text-[16px] sm:text-headline-sm font-bold text-on-surface">{step.title}</h3>
+      <p className="font-body-md text-[14px] leading-6 sm:text-body-md text-on-surface-variant">{step.text}</p>
+    </article>
+  )
+}
 
 const gallery = [
   {
@@ -78,44 +115,12 @@ function LocationPhoto({
 export function BusinessSupportPage() {
   return (
     <main className="w-full pt-28 bg-surface overflow-x-hidden">
-      <section className="relative overflow-hidden bg-gradient-to-b from-surface-container-low via-surface to-surface pb-8 pt-6 sm:pb-12 sm:pt-10">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-gutter-lg flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-12">
-          <div className="flex-1 flex flex-col gap-4 sm:gap-5">
-            <Link to={packagesPath} className="self-start text-[13px] font-bold text-brand-red min-h-11 inline-flex items-center">
-              بازگشت به پکیج‌ها
-            </Link>
-            <span className="self-start px-3.5 py-1.5 rounded-full bg-surface-container text-brand-red font-label-badge text-label-badge">
-              طرح استودیو روتینو
-            </span>
-            <h1 className="font-headline-lg text-[26px] leading-9 sm:text-headline-lg-mobile md:text-headline-lg font-extrabold text-on-surface">
-              حمایت از کسب و کارها
-            </h1>
-            <p className="font-body-lg text-[15px] leading-7 sm:text-body-lg text-on-surface-variant">
-              اگر کسب‌وکار یا پیج اینستاگرام دارید و می‌خواهید با ویدیو دیده شوید، شما را به استودیو دعوت
-              می‌کنیم. چهار تا پنج ریلز برایتان می‌سازیم و در صفحه خودتان پخش می‌کنیم.
-            </p>
-            <a
-              href="#request"
-              className="w-full sm:w-auto sm:self-start inline-flex items-center justify-center gap-2 min-h-12 px-7 py-3.5 rounded-xl bg-gradient-to-r from-brand-red to-brand-orange text-on-primary font-headline-sm font-bold shadow-lg shadow-brand-red/30 hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red focus-visible:ring-offset-2"
-            >
-              ثبت مشخصات
-            </a>
-            <div className="rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] p-4 sm:p-6">
-              <p className="font-headline-sm text-[15px] font-bold text-on-surface mb-2">شرط طرح</p>
-              <p className="font-body-md text-[14px] leading-6 sm:text-body-md text-on-surface-variant">
-                اگر ریلزها جواب دادند، ویو گرفتند و صفحه به اکسپلور رسید، برای تهیه ویدیوها هزینه معقولی
-                می‌گیریم. اگر این اتفاق نیفتاد، ویدیوها رایگان برای شما ساخته شده‌اند.
-              </p>
-            </div>
-          </div>
-          <div className="w-full max-w-[180px] sm:max-w-[220px] lg:max-w-[280px] mx-auto lg:mx-0 shrink-0">
-            <LocationPhoto
-              src="/images/studio-location-01.jpg"
-              alt="لوکیشن استودیو روتینو؛ میز ضبط با بازوی میکروفن RØDE"
-              imgClass="object-[84%_center]"
-              eager
-            />
-          </div>
+      <section className="relative overflow-hidden bg-gradient-to-b from-surface-container-low via-surface to-surface pt-6 sm:pt-10 pb-6 sm:pb-8">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-gutter-lg">
+          <Link to={packagesPath} className="self-start text-[13px] font-bold text-brand-red min-h-11 inline-flex items-center">
+            بازگشت به پکیج‌ها
+          </Link>
+          <h1 className="sr-only">حمایت از کسب و کارها</h1>
         </div>
       </section>
 
@@ -142,21 +147,58 @@ export function BusinessSupportPage() {
           <h2 className="font-headline-lg text-[22px] sm:text-[24px] md:text-[30px] font-extrabold text-on-surface mb-4 sm:mb-6">
             مسیر طرح
           </h2>
-          <ol className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
+          <ol className="md:hidden relative flex flex-col gap-5">
+            <span
+              aria-hidden
+              className="absolute top-6 bottom-6 right-[1.4rem] w-0.5 rounded-full bg-gradient-to-b from-brand-red to-brand-orange"
+            />
+            {steps.map((step, index) => (
+              <li key={step.title} className="relative flex items-start gap-3">
+                <span className="relative z-10 w-12 h-12 rounded-full bg-gradient-to-br from-brand-red to-brand-orange text-on-primary font-stat-counter text-[16px] font-extrabold flex items-center justify-center shrink-0 shadow-lg shadow-brand-red/25">
+                  {stepNumber(index)}
+                </span>
+                <article className="min-w-0 flex-1 rounded-2xl border border-outline-variant/40 bg-[#fcfaf7] p-4 flex flex-col gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[20px] text-brand-red">{step.icon}</span>
+                    <h3 className="font-headline-sm text-[16px] font-bold text-on-surface">{step.title}</h3>
+                  </div>
+                  <p className="font-body-md text-[14px] leading-6 text-on-surface-variant">{step.text}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
+
+          <ol className="relative hidden md:grid md:grid-cols-2 gap-x-24 gap-y-16 px-4 py-6">
+            <svg
+              aria-hidden
+              className="pointer-events-none absolute inset-[8%] hidden md:block"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
+              <defs>
+                <linearGradient id="routino-plan-path" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#d91f40" />
+                  <stop offset="100%" stopColor="#eb4e11" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M 82 16 C 48 16 48 16 18 16 C 6 16 6 38 18 50 C 6 62 6 84 18 84 C 48 84 48 84 82 84"
+                fill="none"
+                stroke="url(#routino-plan-path)"
+                strokeWidth="1.6"
+                strokeDasharray="3 4"
+                strokeLinecap="round"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
             {steps.map((step, index) => (
               <li
                 key={step.title}
-                className="p-4 sm:p-6 rounded-2xl sm:rounded-[1.75rem] border border-outline-variant/40 bg-[#fcfaf7] flex flex-col gap-2"
+                className={
+                  index === 2 ? 'md:col-start-2 md:row-start-2' : index === 3 ? 'md:col-start-1 md:row-start-2' : ''
+                }
               >
-                <span className="text-brand-red font-stat-counter text-[24px] sm:text-[28px] font-extrabold">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <h3 className="font-headline-sm text-[16px] sm:text-headline-sm font-bold text-on-surface">
-                  {step.title}
-                </h3>
-                <p className="font-body-md text-[14px] leading-6 sm:text-body-md text-on-surface-variant">
-                  {step.text}
-                </p>
+                <StepStation step={step} index={index} />
               </li>
             ))}
           </ol>
